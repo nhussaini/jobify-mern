@@ -15,19 +15,29 @@ const Register = () => {
   //global state and useNavigate
 
   //destructre values from useContext()
-  const { isLoading, showAlert } = useAppContext();
+  const { isLoading, showAlert, displayAlert } = useAppContext();
 
   const toggleMember = () => {
     setValues({ ...values, isMember: !values.isMember });
   };
 
   const handleChange = (e) => {
-    console.log(e.target);
+    // console.log(e.target.name);
+    setValues({ ...values, [e.target.name]: e.target.value });
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(e.target);
+    // console.log(e.target);
+
+    //destructure values form values
+    const { name, email, password, isMember } = values;
+    //display alert
+    if (!email || !password || (!isMember && !name)) {
+      displayAlert();
+      return;
+    }
+    console.log(values);
   };
 
   return (
