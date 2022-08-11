@@ -8,7 +8,8 @@ dotenv.config();
 import connectDB from './db/connect.js';
 
 //routers
-import authRouter from './routes/authRoutes';
+import authRouter from './routes/authRoutes.js';
+import jobsRouter from './routes/jobsRoutes.js';
 
 const port = process.env.PORT || 5000;
 
@@ -24,6 +25,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/jobs', jobsRouter);
 
 //app.use() is used to use a middleware
 app.use(notFoundMiddleware);
