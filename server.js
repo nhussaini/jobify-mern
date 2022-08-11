@@ -11,8 +11,6 @@ import connectDB from './db/connect.js';
 import authRouter from './routes/authRoutes.js';
 import jobsRouter from './routes/jobsRoutes.js';
 
-const port = process.env.PORT || 5000;
-
 //middleware
 import errorHandlerMiddleWare from './middleware/error-handler.js';
 import notFoundMiddleware from './middleware/not-found.js';
@@ -30,6 +28,8 @@ app.use('/api/v1/jobs', jobsRouter);
 //app.use() is used to use a middleware
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleWare);
+
+const port = process.env.PORT || 5000;
 
 const start = async () => {
   try {
