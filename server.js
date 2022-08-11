@@ -4,17 +4,26 @@ const app = express();
 import dotenv from 'dotenv';
 dotenv.config();
 
+//db and authenticateUser
+import connectDB from './db/connect.js';
+
+//routers
+import authRouter from './routes/authRoutes';
+
 const port = process.env.PORT || 5000;
 
 //middleware
 import errorHandlerMiddleWare from './middleware/error-handler.js';
 import notFoundMiddleware from './middleware/not-found.js';
-import connectDB from './db/connect.js';
+
+app.use(express.json());
 
 app.get('/', (req, res) => {
-  throw new Error('error');
+  //   throw new Error('error');
   res.send('welcome');
 });
+
+app.use('/api/v1/auth', authRouter);
 
 //app.use() is used to use a middleware
 app.use(notFoundMiddleware);
