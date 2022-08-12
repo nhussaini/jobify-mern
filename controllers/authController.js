@@ -1,15 +1,11 @@
 import User from '../models/User.js';
 
-const register = async (req, res, next) => {
+const register = async (req, res) => {
   //   console.log('user=>', req.body);
   //   res.send('register user');
-  try {
-    const user = await User.create(req.body);
-    res.status(201).json({ user });
-  } catch (error) {
-    //this will invoke our error middleware
-    next(error);
-  }
+
+  const user = await User.create(req.body);
+  res.status(201).json({ user });
 };
 
 const login = async (req, res) => {
