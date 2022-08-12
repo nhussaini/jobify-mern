@@ -4,8 +4,13 @@ import { StatusCodes } from 'http-status-codes';
 const register = async (req, res) => {
   //   console.log('user=>', req.body);
   //   res.send('register user');
+  const { name, email, password } = req.body;
 
-  const user = await User.create(req.body);
+  if (!name || !password || !email) {
+    throw new Error('please provide all values');
+  }
+
+  const user = await User.create({ name, email, password });
   res.status(StatusCodes.CREATED).json({ user });
 };
 
