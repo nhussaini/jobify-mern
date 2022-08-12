@@ -1,26 +1,27 @@
 import User from '../models/User.js';
 import { StatusCodes } from 'http-status-codes';
+import { BadRequestError } from '../errors/index.js';
 
-class CustomAPIError extends Error {
-  constructor(message) {
-    super(message);
-    // this.statusCode = StatusCodes.BAD_REQUEST;
-  }
-}
+// class CustomAPIError extends Error {
+//   constructor(message) {
+//     super(message);
+//     // this.statusCode = StatusCodes.BAD_REQUEST;
+//   }
+// }
 
-class BadRequestError extends CustomAPIError {
-  constructor(message) {
-    super(message);
-    this.statusCode = StatusCodes.BAD_REQUEST;
-  }
-}
+// class BadRequestError extends CustomAPIError {
+//   constructor(message) {
+//     super(message);
+//     this.statusCode = StatusCodes.BAD_REQUEST;
+//   }
+// }
 
-class notFoundError extends CustomAPIError {
-  constructor(message) {
-    super(message);
-    this.statusCode = StatusCodes.NOT_FOUND;
-  }
-}
+// class notFoundError extends CustomAPIError {
+//   constructor(message) {
+//     super(message);
+//     this.statusCode = StatusCodes.NOT_FOUND;
+//   }
+// }
 
 const register = async (req, res) => {
   //   console.log('user=>', req.body);
