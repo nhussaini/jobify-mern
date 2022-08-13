@@ -9,15 +9,19 @@ import {
   REGISTER_USER_ERROR,
 } from './actions';
 
+const token = localStorage.getItem('token');
+const user = localStorage.getItem('user');
+const userLocation = localStorage.getItem('location');
+
 const initialState = {
   isLoading: false,
   showAlert: false,
   alertText: '',
   alertType: '',
-  user: null,
+  user: user ? JSON.parse(user) : null,
   token: null,
-  userLocation: '',
-  jobLocation: '',
+  userLocation: userLocation || '',
+  jobLocation: userLocation || '',
 };
 
 const AppContext = React.createContext();
@@ -36,6 +40,20 @@ const AppProvider = ({ children }) => {
     }, 3000);
   };
 
+  //add to localstorage
+  const addUserToLocalStorage = (user, token, location) => {
+    localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem('token', token);
+    localStorage.setItem('location', location);
+  };
+
+  //remove from local storage
+  const removeUserFromLocalStorage = () => {
+    localStorage.removeItem('item');
+    localStorage.removeItem('token');
+    localStorage.removeItem('location');
+  };
+
   //Register a new user
   const registerUser = async (currentUser) => {
     dispatch({ type: REGISTER_USER_BEGIN });
@@ -47,6 +65,8 @@ const AppProvider = ({ children }) => {
         type: REGISTER_USER_SUCCESS,
         payload: { user, token, location },
       });
+      //add the user to local storage
+      addUserToLocalStorage(user, token, location);
     } catch (error) {
       console.log(error);
       dispatch({
