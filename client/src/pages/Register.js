@@ -16,7 +16,7 @@ const Register = () => {
   const [values, setValues] = useState(initialState);
 
   //destructre values from useContext()
-  const { user, isLoading, showAlert, displayAlert, registerUser } =
+  const { user, isLoading, showAlert, displayAlert, registerUser, loginUser } =
     useAppContext();
 
   const toggleMember = () => {
@@ -43,7 +43,7 @@ const Register = () => {
     //create a new user
     const currentUser = { name, email, password };
     if (isMember) {
-      console.log('already a member');
+      loginUser(currentUser);
     } else {
       //if a new user, register the user
       registerUser(currentUser);
