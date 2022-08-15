@@ -7,7 +7,7 @@ import { set } from 'mongoose';
 
 const Navbar = () => {
   const [showLogout, setShowLogout] = useState(false);
-  const { toggleSidebar } = useAppContext();
+  const { toggleSidebar, logoutUser, user } = useAppContext();
   return (
     <Wrapper>
       <div className="nav-center">
@@ -25,17 +25,11 @@ const Navbar = () => {
             onClick={() => setShowLogout(!showLogout)}
           >
             <FaUserCircle />
-            John
+            {user?.name}
             <FaCaretDown />
           </button>
           <div className={showLogout ? 'dropdown show-dropdown' : 'dropdown'}>
-            <button
-              type="button"
-              className="dropdown-btn"
-              onClick={() => {
-                console.log('logout user');
-              }}
-            >
+            <button type="button" className="dropdown-btn" onClick={logoutUser}>
               logout
             </button>
           </div>
