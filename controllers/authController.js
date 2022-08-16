@@ -73,11 +73,12 @@ const login = async (req, res) => {
   user.password = undefined; //because I don't want to send password to frontend
   res.status(StatusCodes.OK).json({ user, token, location: user.location });
 
-  res.send('login user');
+  // res.send('login user');
 };
 
 const updateUser = async (req, res) => {
-  res.send('update user');
+  console.log('req.user is:', req.user);
+  return res.send('update user');
 };
 
 export { register, login, updateUser };
