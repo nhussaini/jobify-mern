@@ -42,8 +42,8 @@ const UserSchema = new mongoose.Schema({
 
 //this is a mongoose middleware which will be invoked before any save()
 UserSchema.pre('save', async function () {
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
+  // const salt = await bcrypt.genSalt(10);
+  // this.password = await bcrypt.hash(this.password, salt);
 });
 
 //this mongoose function can be called from other files eg authControllers
