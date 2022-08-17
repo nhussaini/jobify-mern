@@ -36,6 +36,39 @@ const AppProvider = ({ children }) => {
   //   const [state, setState] = useState(initialState);
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  //axios
+  const authFetch = axios.create({
+    baseURL: '/api/v1',
+    // headers: {
+    //   Authorization: `Bearer ${state.token}`,
+    // },
+  });
+
+  //request
+  authFetch.interceptors.request.use(
+    (config) => {
+      // config.headers.common['Authorization'] = `Bearer ${state.token}`;
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+
+  //response
+  authFetch.interceptors.response.use(
+    (response) => {
+      return response;
+    },
+    (error) => {
+      console.log(error.response);
+      if (error.response.status === 401) {
+        console.log('AUTH ERROR');
+      }
+      return Promise.reject(error);
+    }
+  );
+
   const displayAlert = () => {
     dispatch({ type: DISPLAY_ALERT });
     clearAlert();
@@ -65,7 +98,6 @@ const AppProvider = ({ children }) => {
     dispatch({ type: REGISTER_USER_BEGIN });
     try {
       const response = await axios.post('/api/v1/auth/register', currentUser);
-      console.log(response);
       const { user, token, location } = response.data;
       dispatch({
         type: REGISTER_USER_SUCCESS,
@@ -96,7 +128,6 @@ const AppProvider = ({ children }) => {
       //add the user to local storage
       addUserToLocalStorage(user, token, location);
     } catch (error) {
-      // console.log(error);
       dispatch({
         type: LOGIN_USER_ERROR,
         payload: { msg: error.response.data.msg },
@@ -118,7 +149,12 @@ const AppProvider = ({ children }) => {
 
   //update user
   const updateUser = async (currentUser) => {
-    console.log(currentUser);
+    try {
+      const { data } = await authFetch.patch('/auth/updateUser', currentUser);
+      console.log('data===>', data);
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   return (
