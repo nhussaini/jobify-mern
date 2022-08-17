@@ -12,6 +12,9 @@ import {
   LOGIN_USER_ERROR,
   TOGGLE_SIDEBAR,
   LOGOUT_USER,
+  UPDATE_USER_BEGIN,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_ERROR,
 } from './actions';
 
 const token = localStorage.getItem('token');
@@ -47,7 +50,7 @@ const AppProvider = ({ children }) => {
   //request
   authFetch.interceptors.request.use(
     (config) => {
-      // config.headers.common['Authorization'] = `Bearer ${state.token}`;
+      config.headers.common['Authorization'] = `Bearer ${state.token}`;
       return config;
     },
     (error) => {
@@ -80,7 +83,7 @@ const AppProvider = ({ children }) => {
   };
 
   //add to localstorage
-  const addUserToLocalStorage = (user, token, location) => {
+  const addUserToLocalStorage = ({ user, token, location }) => {
     localStorage.setItem('user', JSON.stringify(user));
     localStorage.setItem('token', token);
     localStorage.setItem('location', location);
@@ -104,7 +107,7 @@ const AppProvider = ({ children }) => {
         payload: { user, token, location },
       });
       //add the user to local storage
-      addUserToLocalStorage(user, token, location);
+      addUserToLocalStorage({ user, token, location });
     } catch (error) {
       console.log(error);
       dispatch({
@@ -126,7 +129,7 @@ const AppProvider = ({ children }) => {
         payload: { user, token, location },
       });
       //add the user to local storage
-      addUserToLocalStorage(user, token, location);
+      addUserToLocalStorage({ user, token, location });
     } catch (error) {
       dispatch({
         type: LOGIN_USER_ERROR,
@@ -149,12 +152,22 @@ const AppProvider = ({ children }) => {
 
   //update user
   const updateUser = async (currentUser) => {
+    dispatch({ type: UPDATE_USER_BEGIN });
     try {
       const { data } = await authFetch.patch('/auth/updateUser', currentUser);
-      console.log('data===>', data);
+      const { user, location, token } = data;
+      dispatch({
+        type: UPDATE_USER_SUCCESS,
+        payload: { user, location, token },
+      });
+      addUserToLocalStorage({ user, location, token });
     } catch (error) {
-      console.log(error.message);
+      dispatch({
+        type: UPDATE_USER_ERROR,
+        payload: { msg: error.response.data.msg },
+      });
     }
+    clearAlert();
   };
 
   return (
