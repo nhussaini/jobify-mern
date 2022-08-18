@@ -16,6 +16,7 @@ import {
   UPDATE_USER_SUCCESS,
   UPDATE_USER_ERROR,
   HANDLE_CHANGE,
+  CLEAR_VALUES,
 } from './actions';
 
 const token = localStorage.getItem('token');
@@ -181,9 +182,15 @@ const AppProvider = ({ children }) => {
     clearAlert();
   };
 
+  //handle changes for jobs
   const handleChange = ({ name, value }) => {
     // console.log('name and value', name, value);
     dispatch({ type: HANDLE_CHANGE, payload: { name, value } });
+  };
+
+  //clear values for jobs
+  const clearValues = () => {
+    dispatch({ type: CLEAR_VALUES });
   };
 
   return (
@@ -197,6 +204,7 @@ const AppProvider = ({ children }) => {
         logoutUser,
         updateUser,
         handleChange,
+        clearValues,
       }}
     >
       {children}
