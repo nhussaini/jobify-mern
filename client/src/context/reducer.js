@@ -12,6 +12,7 @@ import {
   UPDATE_USER_BEGIN,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_ERROR,
+  HANDLE_CHANGE,
 } from './actions';
 
 import { initialState } from './appContext';
@@ -140,6 +141,14 @@ const reducer = (state, action) => {
       showAlert: true,
       alertType: 'danger',
       alertText: action.payload.msg,
+    };
+  }
+
+  //handle any changes for job
+  if (action.type === HANDLE_CHANGE) {
+    return {
+      ...state,
+      [action.payload.name]: action.payload.value, //dynamically change state's value
     };
   }
 
