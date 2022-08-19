@@ -28,7 +28,7 @@ const JobsContainer = () => {
       </h5>
       <div className="jobs">
         {jobs.map((job) => {
-          return <Job key={job.id} {...job} />;
+          return <Job key={job._id} {...job} />;
         })}
       </div>
       {/* pagination buttons */}
