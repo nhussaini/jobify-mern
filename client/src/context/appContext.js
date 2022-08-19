@@ -249,6 +249,15 @@ const AppProvider = ({ children }) => {
     clearAlert();
   };
 
+  //set edit job-get the id of the job
+  const setEditJob = (id) => {
+    console.log(`set edit job: ${id}`);
+  };
+  //delete job-get the id of the job to delete
+  const deleteJob = (id) => {
+    console.log(`delete job: ${id}`);
+  };
+
   // useEffect(() => {
   //   getJobs();
   // }, []);
@@ -267,6 +276,8 @@ const AppProvider = ({ children }) => {
         clearValues,
         createJob,
         getJobs,
+        setEditJob,
+        deleteJob,
       }}
     >
       {children}
