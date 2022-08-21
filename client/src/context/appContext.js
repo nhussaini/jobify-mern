@@ -23,6 +23,7 @@ import {
   GET_JOBS_BEGIN,
   GET_JOBS_SUCCESS,
   SET_EDIT_JOB,
+  DELETE_JOB_BEGIN,
 } from './actions';
 
 const token = localStorage.getItem('token');
@@ -256,13 +257,20 @@ const AppProvider = ({ children }) => {
   };
 
   //edit job
-  const editJob = () => {
+  const editJob = async () => {
     console.log('edit job');
   };
 
   //delete job-get the id of the job to delete
-  const deleteJob = (id) => {
-    console.log(`delete job: ${id}`);
+  const deleteJob = async (jobId) => {
+    dispatch({ type: DELETE_JOB_BEGIN });
+    try {
+      await authFetch.delete(`/jobs/${jobId}`);
+      getJobs();
+    } catch (error) {
+      console.log(error.response);
+      // logoutUser();
+    }
   };
 
   // useEffect(() => {
