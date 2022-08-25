@@ -6,6 +6,7 @@ import {
   UnAuthenticatedError,
 } from '../errors/index.js';
 import checkPermissions from '../utils/checkPermissions.js';
+import mongoose from 'mongoose';
 
 const createJob = async (req, res) => {
   const { position, company } = req.body;
@@ -63,7 +64,10 @@ const deleteJob = async (req, res) => {
 };
 
 const showStats = async (req, res) => {
-  res.send('show stats');
+  let stats = await Job.aggregate([
+    { $match: { createdBy: mongoose.Types.ObjectId(req.user.userId) } },
+  ]);
+  res.status(StatusCodes.OK).json({ stats });
 };
 
 export { createJob, getAllJobs, updateJob, deleteJob, showStats };
